@@ -1,18 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {firebaseMutations, firebaseAction} from 'vuexfire'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  // VuexFire will check the type of the property to bind as an array or as
+  // an object
+  strict: true,
   state: {
-    count: 0
+    todos: []
   },
+  mutations: firebaseMutations,
   getters: {
-    count: state => state.count
+    todos: state => state.todos,
   },
-  mutations: {
-    increment (state, payload) {
-      state.count += payload.amount
-    }
+  actions: {
+    setTodosRef: firebaseAction(({
+      bindFirebaseRef
+    }, ref) => {
+      bindFirebaseRef('todos', ref)
+    })
   }
 })

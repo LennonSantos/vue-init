@@ -1,7 +1,6 @@
 <template>
-	<div>
-		Home page <b>{{count}}</b>
-    <button @click="increment">Increment</button>
+	<div id="root">
+    <button @click="logout">sair</button>
 	</div>
 </template>
 
@@ -12,18 +11,20 @@ export default {
 
   data () {
     return {
-
     }
   },
   methods: {
-  	increment () {
-  		this.$store.commit('increment', {amount: 1})
-  	}
+  	// increment () {
+  	// 	this.$store.commit('increment', {amount: 1})
+  	// }
+    logout () {
+      this.$auth.signOut()
+    }
   },
   computed: {
-  	count () {
-  		return this.$store.getters.count
-  	}
+  	// count () {
+  	// 	return this.$store.getters.count
+  	// }
   }
 }
 </script>
