@@ -1,9 +1,16 @@
 <template>
   <div id="app">
-     <router-link :to="{name: 'home'}">Home</router-link>
-     <router-link :to="{name: 'about'}">About</router-link>
-     <router-link :to="{name: 'auth'}">Login</router-link>
-     <router-view></router-view>
+    <header>
+      <h1>Projeto</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><router-link :to="{name: 'home'}">Home</router-link></li>
+        <li><router-link :to="{name: 'about'}">About</router-link></li>
+        <li><router-link :to="{name: 'auth'}">Login</router-link></li>
+      </ul>
+    </nav>
+    <router-view></router-view>
   </div>
 </template>
 
