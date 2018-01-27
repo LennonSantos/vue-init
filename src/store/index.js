@@ -9,11 +9,18 @@ export default new Vuex.Store({
   // an object
   strict: true,
   state: {
-    todos: []
+    todos: [],
+    logado: false
   },
-  mutations: firebaseMutations,
+  mutations: {
+    ...firebaseMutations,
+    login (state, n) {
+      state.logado = n
+    }
+  },
   getters: {
     todos: state => state.todos,
+    logado: state =>state.logado
   },
   actions: {
     setTodosRef: firebaseAction(({

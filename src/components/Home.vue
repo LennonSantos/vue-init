@@ -1,6 +1,6 @@
 <template>
 	<div id="root">
-    <button @click="logout">sair</button>
+    Home page
 	</div>
 </template>
 
@@ -14,17 +14,8 @@ export default {
     }
   },
   methods: {
-  	// increment () {
-  	// 	this.$store.commit('increment', {amount: 1})
-  	// }
-    logout () {
-      this.$auth.signOut()
-    }
   },
   computed: {
-  	// count () {
-  	// 	return this.$store.getters.count
-  	// }
   }
 }
 </script>
