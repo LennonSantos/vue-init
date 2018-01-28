@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="root">
 		About page
 		<!-- <b>{{count}}</b>
     <button @click="increment">Increment</button> -->

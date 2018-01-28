@@ -12,6 +12,7 @@ var config = {
 const connection = Firebase.initializeApp(config)
 const DB = connection.database()
 const AUTH = connection.auth()
+const providerGoogle = new Firebase.auth.GoogleAuthProvider()
 
 export default function install (Vue, { router }) {
   // AUTH.onAuthStateChanged(user => {
@@ -29,6 +30,11 @@ export default function install (Vue, { router }) {
     $auth: {
       get () {
         return AUTH
+      }
+    },
+    $google: {
+      get () {
+        return providerGoogle
       }
     }
   })

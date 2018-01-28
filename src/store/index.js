@@ -9,24 +9,25 @@ export default new Vuex.Store({
   // an object
   strict: true,
   state: {
-    todos: [],
+    user: {},
     logado: false
   },
   mutations: {
     ...firebaseMutations,
-    login (state, n) {
-      state.logado = n
+    login (state, payload) {
+      state.logado = payload.logado
+      state.user = payload.user
     }
   },
   getters: {
-    todos: state => state.todos,
+    user: state => state.user,
     logado: state =>state.logado
   },
   actions: {
-    setTodosRef: firebaseAction(({
+    setUserRef: firebaseAction(({
       bindFirebaseRef
     }, ref) => {
-      bindFirebaseRef('todos', ref)
+      bindFirebaseRef('user', ref)
     })
   }
 })
