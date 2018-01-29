@@ -79,9 +79,14 @@ export default {
     marcarPago (vendacod) {
       const remove = confirm('Deseja marcar como pago esta venda?')
 
-      if(remove) {
+      if (remove) {
+        var updates = {}
+
+        updates['/pagamentostatus/'] = true
+        updates['/datapagamento/'] = new Date().getTime()
+
         this.$db.ref(`users/${this.$store.getters.user.uid}/vendas`)
-          .child(vendacod).child('pagamentostatus').set(true)
+          .child(vendacod).update(updates)
       }
     },
     ordernarLista (campo) {

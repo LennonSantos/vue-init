@@ -5,10 +5,12 @@
     <form class="form" @submit.prevent="cadastrar">
       <div class="form-row">
         <input type="text"
-               placeholder="Nome"
+               placeholder="Nome do produto"
+               required
                v-model="produto.nome">
         <input type="number"
-               placeholder="Preço"
+               placeholder="Preço do produto"
+               required
                v-model="produto.preco">
         <input type="number"
                placeholder="Em estoque"
@@ -27,9 +29,7 @@
       </tr>
       <tr v-for="l in lista">
         <td>
-          <input type="text"
-                 :value="l.nome"
-                 @input="update(l.id, $event.target.value, 'nome')">
+          {{l.nome}}
         </td>
         <td>
           <input type="text"

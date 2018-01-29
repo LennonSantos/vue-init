@@ -5,13 +5,14 @@
     <form class="form" @submit.prevent="cadastrar">
       <div class="form-row">
         <input type="text"
-               placeholder="Nome"
+               placeholder="Nome do cliente"
+               required
                v-model="cliente.nome">
         <input type="email"
-               placeholder="Email"
+               placeholder="Email do cliente"
                v-model="cliente.email">
         <input type="text"
-               placeholder="Telefone"
+               placeholder="Telefone do cliente"
                v-model="cliente.telefone">
          <input type="text"
                 placeholder="Observação"
@@ -30,9 +31,7 @@
       </tr>
       <tr v-for="l in lista">
         <td>
-          <input type="text"
-                 :value="l.nome"
-                 @input="update(l.id, $event.target.value, 'nome')">
+          {{l.nome}}
         </td>
         <td>
           <input type="text"
