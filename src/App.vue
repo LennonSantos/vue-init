@@ -59,7 +59,13 @@ export default {
     this.$auth.onAuthStateChanged(user => {
       if (user) {
         this.$router.push({ name: 'home' })
-				this.$store.commit('login', {logado: true, user: user.providerData[0]})
+
+        var dados ={
+          uid: user.uid,
+          displayName: user.displayName
+        }
+
+				this.$store.commit('login', {logado: true, user: dados})
       }
 			else {
         this.$router.push({ name: 'auth' })
