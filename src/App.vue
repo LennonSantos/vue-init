@@ -15,7 +15,7 @@
           <router-link :to="{name: 'clientes'}">Clientes</router-link>
         </li>
         <li class="menu-item" v-if="logado">
-          <router-link :to="{name: 'pendentes'}">Vendas pendentes</router-link>
+          <router-link :to="{name: 'pendentes'}">Relatório de Vendas</router-link>
         </li>
         <li class="menu-item" v-if="logado">
           <router-link :to="{name: 'about'}">About</router-link>

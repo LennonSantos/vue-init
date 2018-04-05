@@ -1,7 +1,16 @@
 <template>
   <div class="root">
-    <h2>Vendas pendentes (R$ {{(totalDevedor).toFixed(2)}})</h2>
+    <h2>Relatório de Vendas (R$ {{(totalDevedor).toFixed(2)}})</h2>
+    <div class="inputs">
+      <label>
+        <input type="radio" name="vendas" value="0" v-model="radio" @click="carregarVendas(false)" /> Pendentes
+      </label>
+      <label>
+        <input type="radio" name="vendas" value="1" v-model="radio" @click="carregarVendas(true)" /> Finalizadas
+      </label>
+    </div>
     <table class="table">
+      <caption>Pendentes</caption>
       <tr>
         <th><a @click.prevent="ordernarLista('clientenome')" href="#">Nome cliente</a></th>
         <th><a @click.prevent="ordernarLista('datacompra')" href="#">Data</a></th>
@@ -11,7 +20,7 @@
         <th><a @click.prevent="ordernarLista('total')" href="#">Valor pendente</a></th>
         <th>Opção</th>
       </tr>
-      <tr v-for="l in listaComputada">
+      <tr v-for="(l, index) in listaComputada" :key="index">
         <td><a @click.prevent="selecionarCliente(l.clientecod)" href="#">{{l.clientenome}}</a></td>
         <td>{{moment(l.datacompra).format('DD/MM/YYYY HH:mm')}}</td>
         <td>{{l.produtonome}}</td>
@@ -43,6 +52,7 @@ export default {
 
   data () {
     return {
+      radio: "0",
       lista: [],
       clienteSelecionado: {
         nome: '',
@@ -55,12 +65,7 @@ export default {
     }
   },
   mounted () {
-    this.$db.ref(`users/${this.$store.getters.user.uid}/vendas`)
-      .orderByChild('pagamentostatus')
-      .equalTo(false)
-      .on('value', data => {
-        this.lista = data.val()
-    })
+    this.carregarVendas(false)
   },
   computed : {
     listaComputada () {
@@ -76,6 +81,14 @@ export default {
     }
   },
   methods: {
+    carregarVendas (value) {
+      this.$db.ref(`users/${this.$store.getters.user.uid}/vendas`)
+        .orderByChild('pagamentostatus')
+        .equalTo(value)
+        .on('value', data => {
+          this.lista = data.val()
+      })
+    },
     marcarPago (vendacod) {
       const remove = confirm('Deseja marcar como pago esta venda?')
 
@@ -113,4 +126,12 @@ export default {
 
 <style lang="css" scoped>
   th a {color: #111}
+
+  .inputs {
+    padding: 0 0 20px 0;
+  }
+  .inputs label {
+    cursor: pointer;
+    margin-right: 20px;
+  }
 </style>
