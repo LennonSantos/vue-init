@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <h2>Relatório de Vendas (R$ {{(totalDevedor).toFixed(2)}})</h2>
+    <h2>Relatório de Vendas (Total R$ {{(totalDevedor).toFixed(2)}})</h2>
     <div class="inputs">
       <label>
         <input type="radio" name="vendas" value="0" v-model="radio" @click="carregarVendas(false)" /> Pendentes
@@ -17,8 +17,13 @@
         <th><a @click.prevent="ordernarLista('produtonome')" href="#">Produto</a></th>
         <th width="90"><a @click.prevent="ordernarLista('produtovalor')" href="#">Preço</a></th>
         <th><a @click.prevent="ordernarLista('produtoqte')" href="#">Quantidade</a></th>
-        <th><a @click.prevent="ordernarLista('total')" href="#">Valor pendente</a></th>
-        <th>Opção</th>
+        <th>
+          <a @click.prevent="ordernarLista('total')" href="#">
+            <span v-if="radio === '0'">Valor pendente</span>
+            <span v-else>Valor pago</span>
+          </a>
+        </th>
+        <th v-if="radio === '0'">Opção</th>
       </tr>
       <tr v-for="(l, index) in listaComputada" :key="index">
         <td><a @click.prevent="selecionarCliente(l.clientecod)" href="#">{{l.clientenome}}</a></td>
@@ -27,7 +32,7 @@
         <td>R$ {{(l.produtovalor).toFixed(2)}}</td>
         <td>{{l.produtoqte}}</td>
         <td>R$ {{l.total}}</td>
-        <td><button @click.prevent="marcarPago(l.vendacod)">Pagar</button> </td>
+        <td v-if="radio === '0'"><button @click.prevent="marcarPago(l.vendacod)">Pagar</button> </td>
       </tr>
     </table>
 

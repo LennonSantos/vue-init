@@ -4,7 +4,7 @@
 			<form @submit.prevent="finalizar">
 			<label for="txtProdutos">Produto</label>
 			<select id="txtProdutos" class="produtos" v-model="produto" required>
-				<option v-for="p in produtos" :value="p">{{p.nome}}</option>
+				<option v-for="(p, index) in produtos" :value="p" :key="index">{{p.nome}}</option>
 			</select>
 			<div class="coluna-50">
 				<div class="campos">
@@ -23,7 +23,7 @@
 
 						<label for="">Cliente</label>
 						<select v-model="cliente" :required="clienteObrigatorio" title="Vendas a prazo é obrigatório cliente">
-							<option :value="c" v-for="c  in clientes">{{c.nome}}</option>
+							<option :value="c" v-for="(c, index)  in clientes" :key="index">{{c.nome}}</option>
 						</select>
 
 						<label for="">Pagamento</label>
@@ -71,6 +71,7 @@ export default {
 			cliente: {id: 0, nome: 'nenhum'},
 			produtos: [],
 			produto: {
+        id: null,
 				preco: 0
 			},
 			quantidade: 1,
@@ -79,7 +80,6 @@ export default {
   },
   methods: {
 		finalizar () {
-
 			const pago = this.pagamento == 'avista' ? true : false
 			const datapagamento = this.pagamento == 'avista' ? new Date().getTime() : ''
 
@@ -104,10 +104,23 @@ export default {
         .then(res => {
           this.limpar()
 
-					this.$db.ref(`users/${this.$store.getters.user.uid}/vendas`)
-		        .child(res.getKey()).child('vendacod').set(res.getKey())
+          const idVenda = res.getKey()
 
-          alert(`Venda salva com sucesso! \n id: ${res.getKey()}`)
+          // seta o codigo da venda no registro
+					this.$db.ref(`users/${this.$store.getters.user.uid}/vendas`)
+            .child(res.getKey()).child('vendacod').set(idVenda)
+
+          // atualiza estoque
+          this.$db.ref(`users/${this.$store.getters.user.uid}/produtos/${venda.produtocod}`)
+            .child('estoque')
+            .transaction(function(estoque) {
+              if (estoque|| (estoque === 0)) {
+                estoque--
+              }
+              return estoque
+            })
+
+          alert(`Venda salva com sucesso! \n id: ${idVenda}`)
         })
         .catch(error => {
           alert(error.message)
@@ -116,7 +129,8 @@ export default {
 		limpar () {
 			this.quantidade =  1
 			this.cliente = {}
-			this.produto = {}
+			this.produto.id = null
+			this.produto.preco = 0
 		}
   },
   computed: {

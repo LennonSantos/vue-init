@@ -8,7 +8,7 @@
                placeholder="Nome do produto"
                required
                v-model="produto.nome">
-        <input type="number"
+        <input type="tel"
                placeholder="Preço do produto"
                required
                v-model="produto.preco">
@@ -27,7 +27,7 @@
         <th>Estoque</th>
         <th>Excluir</th>
       </tr>
-      <tr v-for="l in lista">
+      <tr v-for="(l, index) in lista" :key="index">
         <td>
           {{l.nome}}
         </td>
